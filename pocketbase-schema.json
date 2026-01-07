@@ -1,0 +1,148 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "type": "auth",
+      "schema": [
+        { "name": "name", "type": "text", "required": true },
+        { "name": "avatar", "type": "file", "options": { "maxSelect": 1, "maxSize": 5242880, "mimeTypes": ["image/jpeg", "image/png", "image/webp"] } },
+        { "name": "role", "type": "select", "options": { "values": ["student", "instructor", "admin"] }, "required": true },
+        { "name": "bio", "type": "text" },
+        { "name": "phone", "type": "text" },
+        { "name": "company", "type": "text" }
+      ]
+    },
+    {
+      "name": "courses",
+      "type": "base",
+      "schema": [
+        { "name": "title", "type": "text", "required": true },
+        { "name": "slug", "type": "text", "required": true, "options": { "pattern": "^[a-z0-9-]+$" } },
+        { "name": "description", "type": "editor" },
+        { "name": "category", "type": "select", "options": { "values": ["project-management", "agile", "leadership", "business-analysis", "scrum", "pmp"] } },
+        { "name": "duration", "type": "number" },
+        { "name": "price", "type": "number", "required": true },
+        { "name": "thumbnail", "type": "file", "options": { "maxSelect": 1, "maxSize": 10485760, "mimeTypes": ["image/jpeg", "image/png", "image/webp"] } },
+        { "name": "features", "type": "json" },
+        { "name": "instructor", "type": "relation", "options": { "collectionId": "users", "maxSelect": 1 } },
+        { "name": "published", "type": "bool" }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_courses_slug ON courses(slug)"]
+    },
+    {
+      "name": "modules",
+      "type": "base",
+      "schema": [
+        { "name": "course", "type": "relation", "required": true, "options": { "collectionId": "courses", "maxSelect": 1 } },
+        { "name": "title", "type": "text", "required": true },
+        { "name": "description", "type": "text" },
+        { "name": "order", "type": "number", "required": true }
+      ]
+    },
+    {
+      "name": "lessons",
+      "type": "base",
+      "schema": [
+        { "name": "module", "type": "relation", "required": true, "options": { "collectionId": "modules", "maxSelect": 1 } },
+        { "name": "title", "type": "text", "required": true },
+        { "name": "type", "type": "select", "required": true, "options": { "values": ["video", "text", "quiz", "live_class"] } },
+        { "name": "content", "type": "editor" },
+        { "name": "video_url", "type": "url" },
+        { "name": "duration", "type": "number" },
+        { "name": "order", "type": "number", "required": true }
+      ]
+    },
+    {
+      "name": "lesson_materials",
+      "type": "base",
+      "schema": [
+        { "name": "lesson", "type": "relation", "required": true, "options": { "collectionId": "lessons", "maxSelect": 1 } },
+        { "name": "title", "type": "text", "required": true },
+        { "name": "type", "type": "select", "required": true, "options": { "values": ["pdf", "slides", "worksheet", "template", "video"] } },
+        { "name": "file", "type": "file", "options": { "maxSelect": 1, "maxSize": 52428800 } },
+        { "name": "url", "type": "url" }
+      ]
+    },
+    {
+      "name": "enrollments",
+      "type": "base",
+      "schema": [
+        { "name": "user", "type": "relation", "required": true, "options": { "collectionId": "users", "maxSelect": 1 } },
+        { "name": "course", "type": "relation", "required": true, "options": { "collectionId": "courses", "maxSelect": 1 } },
+        { "name": "status", "type": "select", "required": true, "options": { "values": ["active", "completed", "cancelled"] } },
+        { "name": "payment_id", "type": "text" },
+        { "name": "enrolled_at", "type": "date" },
+        { "name": "completed_at", "type": "date" }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_enrollment ON enrollments(user, course)"]
+    },
+    {
+      "name": "lesson_progress",
+      "type": "base",
+      "schema": [
+        { "name": "user", "type": "relation", "required": true, "options": { "collectionId": "users", "maxSelect": 1 } },
+        { "name": "lesson", "type": "relation", "required": true, "options": { "collectionId": "lessons", "maxSelect": 1 } },
+        { "name": "completed", "type": "bool" },
+        { "name": "completed_at", "type": "date" },
+        { "name": "notes", "type": "text" }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_lesson_progress ON lesson_progress(user, lesson)"]
+    },
+    {
+      "name": "events",
+      "type": "base",
+      "schema": [
+        { "name": "title", "type": "text", "required": true },
+        { "name": "slug", "type": "text", "required": true },
+        { "name": "description", "type": "editor" },
+        { "name": "type", "type": "select", "required": true, "options": { "values": ["workshop", "seminar", "webinar", "bootcamp", "networking"] } },
+        { "name": "date", "type": "date", "required": true },
+        { "name": "time", "type": "text", "required": true },
+        { "name": "duration", "type": "text", "required": true },
+        { "name": "location", "type": "text" },
+        { "name": "price", "type": "number", "required": true },
+        { "name": "capacity", "type": "number", "required": true },
+        { "name": "registered_count", "type": "number" },
+        { "name": "image", "type": "file", "options": { "maxSelect": 1, "maxSize": 10485760 } }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_events_slug ON events(slug)"]
+    },
+    {
+      "name": "event_registrations",
+      "type": "base",
+      "schema": [
+        { "name": "user", "type": "relation", "required": true, "options": { "collectionId": "users", "maxSelect": 1 } },
+        { "name": "event", "type": "relation", "required": true, "options": { "collectionId": "events", "maxSelect": 1 } },
+        { "name": "status", "type": "select", "required": true, "options": { "values": ["registered", "attended", "cancelled"] } },
+        { "name": "payment_id", "type": "text" }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_event_reg ON event_registrations(user, event)"]
+    },
+    {
+      "name": "contact_inquiries",
+      "type": "base",
+      "schema": [
+        { "name": "name", "type": "text", "required": true },
+        { "name": "email", "type": "email", "required": true },
+        { "name": "phone", "type": "text" },
+        { "name": "company", "type": "text" },
+        { "name": "message", "type": "text", "required": true },
+        { "name": "status", "type": "select", "options": { "values": ["new", "in_progress", "resolved"] } }
+      ]
+    },
+    {
+      "name": "payments",
+      "type": "base",
+      "schema": [
+        { "name": "user", "type": "relation", "required": true, "options": { "collectionId": "users", "maxSelect": 1 } },
+        { "name": "type", "type": "select", "required": true, "options": { "values": ["course", "event"] } },
+        { "name": "reference_id", "type": "text", "required": true },
+        { "name": "amount", "type": "number", "required": true },
+        { "name": "currency", "type": "text", "required": true },
+        { "name": "stripe_session_id", "type": "text" },
+        { "name": "stripe_payment_intent", "type": "text" },
+        { "name": "status", "type": "select", "required": true, "options": { "values": ["pending", "completed", "failed", "refunded"] } }
+      ]
+    }
+  ]
+}

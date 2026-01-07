@@ -1,0 +1,155 @@
+[
+  {
+    "name": "users",
+    "type": "auth",
+    "listRule": "id = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "id = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "",
+    "updateRule": "id = @request.auth.id",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "user_profiles",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != '' && @request.data.user = @request.auth.id",
+    "updateRule": "user = @request.auth.id",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "courses",
+    "type": "base",
+    "listRule": "published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "viewRule": "published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "createRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "updateRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "modules",
+    "type": "base",
+    "listRule": "course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "viewRule": "course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "createRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "updateRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "lessons",
+    "type": "base",
+    "listRule": "module.course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "viewRule": "module.course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "createRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "updateRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "materials",
+    "type": "base",
+    "listRule": "lesson.module.course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "viewRule": "lesson.module.course.published = true || @request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "createRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "updateRule": "@request.auth.role = 'admin' || @request.auth.role = 'instructor'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "enrollments",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != '' && @request.data.user = @request.auth.id",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "lesson_progress",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "@request.data.user = @request.auth.id",
+    "updateRule": "user = @request.auth.id",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "certificates",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "events",
+    "type": "base",
+    "listRule": "published = true || @request.auth.role = 'admin'",
+    "viewRule": "published = true || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "event_registrations",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "contact_inquiries",
+    "type": "base",
+    "listRule": "@request.auth.role = 'admin'",
+    "viewRule": "@request.auth.role = 'admin'",
+    "createRule": "",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "resources",
+    "type": "base",
+    "listRule": "premium_only = false || @request.auth.id != ''",
+    "viewRule": "premium_only = false || @request.auth.id != ''",
+    "createRule": "@request.auth.role = 'admin'",
+    "updateRule": "@request.auth.role = 'admin'",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "activity_logs",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "",
+    "deleteRule": "@request.auth.role = 'admin'"
+  },
+  {
+    "name": "payments",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "name": "invoices",
+    "type": "base",
+    "listRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "viewRule": "user = @request.auth.id || @request.auth.role = 'admin'",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": ""
+  },
+  {
+    "name": "audit_logs",
+    "type": "base",
+    "listRule": "@request.auth.role = 'admin'",
+    "viewRule": "@request.auth.role = 'admin'",
+    "createRule": "@request.auth.id != ''",
+    "updateRule": "",
+    "deleteRule": ""
+  }
+]

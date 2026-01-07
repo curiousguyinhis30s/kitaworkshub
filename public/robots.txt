@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /portal
+Disallow: /api/
+
+Crawl-delay: 1
+
+Sitemap: https://kitaworks.sami.now/sitemap.xml

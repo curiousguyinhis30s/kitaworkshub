@@ -1,26 +1,342 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  /* Typography */
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-heading: var(--font-display), system-ui, sans-serif;
+
+  /* ═══════════════════════════════════════════════════════════
+     KITAWORKSHUB BRAND COLORS - "Quiet Luxury with Warmth"
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Base Colors */
+  --color-background: #F7F8F6;      /* Warm Off-White */
+  --color-surface: #ECEDE8;         /* Soft Stone Grey */
+  --color-surface-alt: #FFFFFF;     /* Pure White */
+
+  /* Text Colors */
+  --color-text: #1F2933;            /* Charcoal - Primary text */
+  --color-text-muted: #4B5563;      /* Darker Muted Grey - Secondary text (better contrast) */
+  --color-text-subtle: #6B7280;     /* Medium grey - Captions */
+
+  /* ═══════════════════════════════════════════════════════════
+     SAGE GREEN - Primary Brand Accent (Growth, Trust, Nature)
+     ═══════════════════════════════════════════════════════════ */
+  --color-sage-50:  #F0F4F2;
+  --color-sage-100: #D9E3DD;
+  --color-sage-200: #B3C7BB;
+  --color-sage-300: #8DAB99;
+  --color-sage-400: #6F9180;
+  --color-sage-500: #5F7C6B;        /* Primary Sage */
+  --color-sage-600: #4D6557;
+  --color-sage-700: #3B4E43;
+  --color-sage-800: #29372F;
+  --color-sage-900: #17201B;
+
+  /* ═══════════════════════════════════════════════════════════
+     PEACH - Warmth Accent (Community, Highlights)
+     ═══════════════════════════════════════════════════════════ */
+  --color-peach-50:  #FEF6F3;
+  --color-peach-100: #FCE8E1;
+  --color-peach-200: #F8D1C4;
+  --color-peach-300: #F2B5A1;
+  --color-peach-400: #E6A08E;       /* Primary Peach */
+  --color-peach-500: #D68B76;
+  --color-peach-600: #C4735C;
+  --color-peach-700: #A85A44;
+  --color-peach-800: #874631;
+  --color-peach-900: #5E3022;
+
+  /* ═══════════════════════════════════════════════════════════
+     LAVENDER - Creativity Accent (Reflection, Thought Leadership)
+     ═══════════════════════════════════════════════════════════ */
+  --color-lavender-50:  #F5F3F9;
+  --color-lavender-100: #E8E4F0;
+  --color-lavender-200: #D5CEE5;
+  --color-lavender-300: #C1B6D9;
+  --color-lavender-400: #B7A9D6;    /* Primary Lavender */
+  --color-lavender-500: #9E8FC5;
+  --color-lavender-600: #8677AD;
+  --color-lavender-700: #6B5E8E;
+  --color-lavender-800: #524871;
+  --color-lavender-900: #3A3352;
+
+  /* ═══════════════════════════════════════════════════════════
+     SKY BLUE - Calm Accent (Dividers, Subtle Emphasis)
+     ═══════════════════════════════════════════════════════════ */
+  --color-sky-50:  #F4F8FA;
+  --color-sky-100: #E3ECF2;
+  --color-sky-200: #C9DBE7;
+  --color-sky-300: #AFC6D9;         /* Primary Sky Blue */
+  --color-sky-400: #8FAFC9;
+  --color-sky-500: #7098B5;
+  --color-sky-600: #5A829E;
+  --color-sky-700: #476A82;
+  --color-sky-800: #365266;
+  --color-sky-900: #263B49;
+
+  /* ═══════════════════════════════════════════════════════════
+     SEMANTIC COLORS
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Success - Soft Green */
+  --color-success-50: #F0FDF4;
+  --color-success-500: #22C55E;
+  --color-success-600: #16A34A;
+  --color-success-700: #15803D;
+
+  /* Warning - Warm Amber */
+  --color-warning-50: #FFFBEB;
+  --color-warning-500: #F59E0B;
+  --color-warning-600: #D97706;
+
+  /* Error - Soft Red */
+  --color-error-50: #FEF2F2;
+  --color-error-500: #EF4444;
+  --color-error-600: #DC2626;
+
+  /* ═══════════════════════════════════════════════════════════
+     LEGACY MAPPINGS (for backward compatibility)
+     ═══════════════════════════════════════════════════════════ */
+  --color-primary-50:  var(--color-sage-50);
+  --color-primary-100: var(--color-sage-100);
+  --color-primary-200: var(--color-sage-200);
+  --color-primary-300: var(--color-sage-300);
+  --color-primary-400: var(--color-sage-400);
+  --color-primary-500: var(--color-sage-500);
+  --color-primary-600: var(--color-sage-600);
+  --color-primary-700: var(--color-sage-700);
+  --color-primary-800: var(--color-sage-800);
+  --color-primary-900: var(--color-sage-900);
+
+  --color-accent-50:  var(--color-peach-50);
+  --color-accent-100: var(--color-peach-100);
+  --color-accent-200: var(--color-peach-200);
+  --color-accent-300: var(--color-peach-300);
+  --color-accent-400: var(--color-peach-400);
+  --color-accent-500: var(--color-peach-500);
+  --color-accent-600: var(--color-peach-600);
+  --color-accent-700: var(--color-peach-700);
+  --color-accent-800: var(--color-peach-800);
+  --color-accent-900: var(--color-peach-900);
+
+  --color-secondary: var(--color-text);
+  --color-muted: var(--color-surface);
+  --color-muted-foreground: var(--color-text-muted);
+
+  /* Border Radius - Softer, more approachable */
+  --radius: 0.625rem;      /* 10px - primary */
+  --radius-sm: 0.375rem;   /* 6px */
+  --radius-lg: 1rem;       /* 16px */
+  --radius-xl: 1.5rem;     /* 24px */
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.6s ease-out;
+  --animate-slide-up: slideUp 0.6s ease-out;
+  --animate-slide-down: slideDown 0.4s ease-out;
+  --animate-scale-in: scaleIn 0.3s ease-out;
+  --animate-float: float 3s ease-in-out infinite;
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(-10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+.animate-gentle-pulse {
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+
+:root {
+  --background: 80 10% 97%;         /* Warm off-white */
+  --foreground: 210 24% 16%;        /* Charcoal */
+  --border: 60 6% 91%;              /* Soft stone */
+  --input: 60 6% 91%;
+  --ring: 150 14% 43%;              /* Sage */
+}
+
+.dark {
+  --background: 210 24% 10%;
+  --foreground: 0 0% 95%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 150 14% 35%;
+
+  /* Dark mode brand colors */
+  --color-background: #1a1f1c;
+  --color-surface: #242a26;
+  --color-surface-alt: #2d3530;
+  --color-text: #e8ebe9;
+  --color-text-muted: #a8b0ab;
+  --color-text-subtle: #7a857e;
+
+  /* Sage stays similar but adjusted for dark */
+  --color-sage-50: #1a2420;
+  --color-sage-100: #243029;
+  --color-sage-200: #2d3d34;
+  --color-sage-300: #3b5244;
+  --color-sage-400: #4d6857;
+  --color-sage-500: #5F7C6B;
+  --color-sage-600: #7a9687;
+  --color-sage-700: #96b0a3;
+  --color-sage-800: #b3c9be;
+  --color-sage-900: #d1e1d8;
+
+  /* Peach adjusted for dark */
+  --color-peach-50: #2a1f1c;
+  --color-peach-100: #3d2b26;
+  --color-peach-200: #523a32;
+  --color-peach-300: #6b4c41;
+  --color-peach-400: #8a6557;
+  --color-peach-500: #a87f6e;
+  --color-peach-600: #c49a88;
+  --color-peach-700: #ddb5a3;
+  --color-peach-800: #ecd0c1;
+  --color-peach-900: #f7e8e0;
+}
+
+@layer base {
+  * {
+    @apply border-surface;
+  }
+
+  body {
+    @apply antialiased;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Typography base styles */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  h1 { @apply text-4xl md:text-5xl lg:text-6xl leading-tight; }
+  h2 { @apply text-3xl md:text-4xl lg:text-5xl leading-tight; }
+  h3 { @apply text-2xl md:text-3xl leading-snug; }
+  h4 { @apply text-xl md:text-2xl leading-snug; }
+
+  p {
+    @apply leading-relaxed;
+    color: var(--color-text-muted);
+  }
+
+  /* Fix input text color - ensure always readable */
+  input,
+  textarea,
+  select {
+    color: var(--color-text) !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-text-subtle);
+  }
+
+  /* Fix autofill text color */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-warm {
+    background-color: var(--color-background);
+  }
+
+  .bg-surface {
+    background-color: var(--color-surface);
+  }
+
+  .text-charcoal {
+    color: var(--color-text);
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  /* Decorative blob for backgrounds */
+  .blob-sage {
+    background: radial-gradient(circle, var(--color-sage-200) 0%, transparent 70%);
+  }
+
+  .blob-peach {
+    background: radial-gradient(circle, var(--color-peach-200) 0%, transparent 70%);
+  }
+
+  .blob-lavender {
+    background: radial-gradient(circle, var(--color-lavender-200) 0%, transparent 70%);
+  }
+
+  /* Responsive image container - hidden on mobile, visible on large screens */
+  .hero-image-container {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-image-container {
+      display: block;
+    }
+  }
 }

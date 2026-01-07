@@ -1,0 +1,941 @@
+[
+  {
+    "name": "users",
+    "type": "auth",
+    "schema": [
+      {
+        "name": "name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "role",
+        "type": "select",
+        "options": {
+          "values": ["student", "instructor", "admin"]
+        },
+        "required": true
+      },
+      {
+        "name": "phone",
+        "type": "text"
+      },
+      {
+        "name": "company",
+        "type": "text"
+      },
+      {
+        "name": "avatar",
+        "type": "file",
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/jpeg", "image/png", "image/webp"]
+        }
+      }
+    ]
+  },
+  {
+    "name": "user_profiles",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "bio",
+        "type": "text"
+      },
+      {
+        "name": "linkedin",
+        "type": "url"
+      },
+      {
+        "name": "department",
+        "type": "text"
+      },
+      {
+        "name": "position",
+        "type": "text"
+      },
+      {
+        "name": "skills",
+        "type": "json"
+      },
+      {
+        "name": "member_type",
+        "type": "select",
+        "options": {
+          "values": ["standard", "premium"]
+        },
+        "required": true
+      },
+      {
+        "name": "member_until",
+        "type": "date"
+      },
+      {
+        "name": "notification_email",
+        "type": "bool"
+      },
+      {
+        "name": "notification_courses",
+        "type": "bool"
+      },
+      {
+        "name": "notification_events",
+        "type": "bool"
+      }
+    ]
+  },
+  {
+    "name": "courses",
+    "type": "base",
+    "schema": [
+      {
+        "name": "slug",
+        "type": "text",
+        "required": true,
+        "options": {
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "long_description",
+        "type": "editor"
+      },
+      {
+        "name": "category",
+        "type": "select",
+        "options": {
+          "values": ["PMO Fundamentals", "Leadership Development", "Agile Practices"]
+        }
+      },
+      {
+        "name": "duration_hours",
+        "type": "number"
+      },
+      {
+        "name": "price",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "instructor",
+        "type": "relation",
+        "options": {
+          "collectionId": "users",
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "instructor_name",
+        "type": "text"
+      },
+      {
+        "name": "instructor_bio",
+        "type": "text"
+      },
+      {
+        "name": "thumbnail",
+        "type": "file",
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": ["image/jpeg", "image/png", "image/webp"]
+        }
+      },
+      {
+        "name": "features",
+        "type": "json"
+      },
+      {
+        "name": "learning_outcomes",
+        "type": "json"
+      },
+      {
+        "name": "prerequisites",
+        "type": "json"
+      },
+      {
+        "name": "target_audience",
+        "type": "json"
+      },
+      {
+        "name": "published",
+        "type": "bool"
+      },
+      {
+        "name": "featured",
+        "type": "bool"
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_course_slug ON courses (slug)"]
+  },
+  {
+    "name": "modules",
+    "type": "base",
+    "schema": [
+      {
+        "name": "course",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "courses",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "order",
+        "type": "number",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "lessons",
+    "type": "base",
+    "schema": [
+      {
+        "name": "module",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "modules",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["video", "reading", "quiz", "workshop", "assignment"]
+        }
+      },
+      {
+        "name": "content",
+        "type": "editor"
+      },
+      {
+        "name": "duration_minutes",
+        "type": "number"
+      },
+      {
+        "name": "video_url",
+        "type": "url"
+      },
+      {
+        "name": "order",
+        "type": "number",
+        "required": true
+      }
+    ]
+  },
+  {
+    "name": "materials",
+    "type": "base",
+    "schema": [
+      {
+        "name": "lesson",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "lessons",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["pdf", "slides", "worksheet", "template", "video"]
+        }
+      },
+      {
+        "name": "file",
+        "type": "file",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 52428800
+        }
+      }
+    ]
+  },
+  {
+    "name": "enrollments",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "course",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "courses",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "email",
+        "type": "email"
+      },
+      {
+        "name": "phone",
+        "type": "text"
+      },
+      {
+        "name": "message",
+        "type": "text"
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["pending", "active", "completed", "expired", "cancelled"]
+        }
+      },
+      {
+        "name": "enrolled_at",
+        "type": "date"
+      },
+      {
+        "name": "completed_at",
+        "type": "date"
+      },
+      {
+        "name": "payment_id",
+        "type": "text"
+      }
+    ]
+  },
+  {
+    "name": "lesson_progress",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "lesson",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "lessons",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "completed",
+        "type": "bool"
+      },
+      {
+        "name": "completed_at",
+        "type": "date"
+      },
+      {
+        "name": "time_spent_seconds",
+        "type": "number"
+      }
+    ]
+  },
+  {
+    "name": "certificates",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "course",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "courses",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "credential_id",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "issued_at",
+        "type": "date",
+        "required": true
+      },
+      {
+        "name": "expires_at",
+        "type": "date"
+      },
+      {
+        "name": "score",
+        "type": "number"
+      },
+      {
+        "name": "skills",
+        "type": "json"
+      },
+      {
+        "name": "pdf_file",
+        "type": "file",
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 10485760,
+          "mimeTypes": ["application/pdf"]
+        }
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_cert_credential ON certificates (credential_id)"]
+  },
+  {
+    "name": "events",
+    "type": "base",
+    "schema": [
+      {
+        "name": "slug",
+        "type": "text",
+        "required": true,
+        "options": {
+          "pattern": "^[a-z0-9-]+$"
+        }
+      },
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "long_description",
+        "type": "editor"
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["Workshop", "Seminar", "Networking", "Webinar"]
+        }
+      },
+      {
+        "name": "date",
+        "type": "date",
+        "required": true
+      },
+      {
+        "name": "time",
+        "type": "text"
+      },
+      {
+        "name": "duration_minutes",
+        "type": "number"
+      },
+      {
+        "name": "location",
+        "type": "text"
+      },
+      {
+        "name": "address",
+        "type": "text"
+      },
+      {
+        "name": "price",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "capacity",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "registered_count",
+        "type": "number"
+      },
+      {
+        "name": "speaker",
+        "type": "text"
+      },
+      {
+        "name": "speaker_bio",
+        "type": "text"
+      },
+      {
+        "name": "highlights",
+        "type": "json"
+      },
+      {
+        "name": "agenda",
+        "type": "json"
+      },
+      {
+        "name": "requirements",
+        "type": "json"
+      },
+      {
+        "name": "featured",
+        "type": "bool"
+      },
+      {
+        "name": "published",
+        "type": "bool"
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_event_slug ON events (slug)"]
+  },
+  {
+    "name": "event_registrations",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "event",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "events",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "type": "text"
+      },
+      {
+        "name": "company",
+        "type": "text"
+      },
+      {
+        "name": "dietary_requirements",
+        "type": "text"
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["pending", "confirmed", "cancelled", "attended"]
+        }
+      },
+      {
+        "name": "confirmation_code",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "payment_id",
+        "type": "text"
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_reg_confirmation ON event_registrations (confirmation_code)"]
+  },
+  {
+    "name": "contact_inquiries",
+    "type": "base",
+    "schema": [
+      {
+        "name": "name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "type": "text"
+      },
+      {
+        "name": "company",
+        "type": "text"
+      },
+      {
+        "name": "subject",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "message",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "options": {
+          "values": ["inquiry", "partnership", "speaking", "feedback"]
+        }
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["new", "contacted", "resolved"]
+        }
+      }
+    ]
+  },
+  {
+    "name": "resources",
+    "type": "base",
+    "schema": [
+      {
+        "name": "title",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["PDF", "ZIP", "XLSX", "DOC", "VIDEO"]
+        }
+      },
+      {
+        "name": "category",
+        "type": "text"
+      },
+      {
+        "name": "file",
+        "type": "file",
+        "required": true,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 104857600
+        }
+      },
+      {
+        "name": "downloads",
+        "type": "number"
+      },
+      {
+        "name": "premium_only",
+        "type": "bool"
+      }
+    ]
+  },
+  {
+    "name": "activity_logs",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": true,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "action",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "detail",
+        "type": "text"
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["lesson", "certificate", "event", "resource", "enrollment", "login"]
+        }
+      },
+      {
+        "name": "metadata",
+        "type": "json"
+      }
+    ]
+  },
+  {
+    "name": "payments",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "stripe_session_id",
+        "type": "text"
+      },
+      {
+        "name": "stripe_payment_intent",
+        "type": "text"
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["course", "event"]
+        }
+      },
+      {
+        "name": "item_id",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "amount",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["pending", "completed", "failed", "refunded", "expired"]
+        }
+      },
+      {
+        "name": "failure_reason",
+        "type": "text"
+      },
+      {
+        "name": "paid_at",
+        "type": "date"
+      },
+      {
+        "name": "refunded_at",
+        "type": "date"
+      },
+      {
+        "name": "refund_amount",
+        "type": "number"
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_payment_session ON payments (stripe_session_id)"]
+  },
+  {
+    "name": "invoices",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "required": true,
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "payment",
+        "type": "relation",
+        "options": {
+          "collectionId": "payments",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "invoice_number",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "type",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["course", "event"]
+        }
+      },
+      {
+        "name": "item_id",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "amount",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "currency",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "required": true,
+        "options": {
+          "values": ["pending", "paid", "refunded"]
+        }
+      },
+      {
+        "name": "issued_at",
+        "type": "date",
+        "required": true
+      }
+    ],
+    "indexes": ["CREATE UNIQUE INDEX idx_invoice_number ON invoices (invoice_number)"]
+  },
+  {
+    "name": "audit_logs",
+    "type": "base",
+    "schema": [
+      {
+        "name": "user",
+        "type": "relation",
+        "options": {
+          "collectionId": "users",
+          "cascadeDelete": false,
+          "maxSelect": 1
+        }
+      },
+      {
+        "name": "action",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "resource",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "resource_id",
+        "type": "text"
+      },
+      {
+        "name": "details",
+        "type": "json"
+      },
+      {
+        "name": "ip_address",
+        "type": "text"
+      },
+      {
+        "name": "user_agent",
+        "type": "text"
+      }
+    ]
+  }
+]
