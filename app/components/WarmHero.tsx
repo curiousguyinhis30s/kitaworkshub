@@ -34,9 +34,9 @@ export default function WarmHero({
               {children}
             </div>
 
-            {/* Image side - visible on large screens */}
+            {/* Image side - visible on all screens */}
             <div className="relative hero-image-container">
-              <div className="relative h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
                 <Image
                   src={imageSrc}
                   alt={imageAlt}

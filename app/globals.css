@@ -329,14 +329,15 @@ html {
     background: radial-gradient(circle, var(--color-lavender-200) 0%, transparent 70%);
   }
 
-  /* Responsive image container - hidden on mobile, visible on large screens */
+  /* Responsive image container - visible on all screens with adjusted sizing */
   .hero-image-container {
-    display: none;
+    display: block;
+    margin-top: 2rem;
   }
 
   @media (min-width: 1024px) {
     .hero-image-container {
-      display: block;
+      margin-top: 0;
     }
   }
 }
