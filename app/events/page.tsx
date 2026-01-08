@@ -85,8 +85,8 @@ export default function EventsPage() {
         <WarmHero
           className="min-h-[700px] pt-24"
           variant="split"
-          imageSrc="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80"
-          imageAlt="Professional networking event"
+          imageSrc="/images/heroes/hero-events.jpeg"
+          imageAlt="Professional networking event in modern Malaysian conference venue"
         >
           <div className="animate-slide-up">
             <h1 className="text-5xl md:text-6xl font-bold font-heading text-text mb-6 leading-tight">

@@ -68,8 +68,8 @@ export default function Home() {
         <WarmHero
           className="min-h-[700px] pt-24"
           variant="split"
-          imageSrc="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80"
-          imageAlt="Team collaboration and leadership development"
+          imageSrc="/images/heroes/hero-home.jpeg"
+          imageAlt="Professional Malaysian woman leader in modern coworking space"
         >
           <div className="animate-slide-up">
             {/* Subtle label */}

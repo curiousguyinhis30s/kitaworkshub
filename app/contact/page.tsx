@@ -29,12 +29,17 @@ export default function ContactPage() {
 
       <main>
         {/* Hero Section */}
-        <WarmHero className="pt-32 pb-16 lg:pt-40 lg:pb-20">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <WarmHero
+          className="min-h-[600px] pt-24"
+          variant="split"
+          imageSrc="/images/heroes/hero-contact.jpeg"
+          imageAlt="Welcoming modern reception area of Malaysian professional services firm"
+        >
+          <div className="animate-slide-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-text mb-4">
               We&apos;re here to <span className="text-sage-500">help</span>.
             </h1>
-            <p className="text-lg text-text-muted max-w-xl mx-auto">
+            <p className="text-lg text-text-muted max-w-lg">
               Have a question or want to work together? Drop us a message and we&apos;ll get back to you soon.
             </p>
           </div>

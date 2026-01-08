@@ -164,8 +164,8 @@ export default function CommunityPage() {
         <WarmHero
           className="min-h-[700px] pt-24"
           variant="split"
-          imageSrc="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
-          imageAlt="Community of leaders collaborating"
+          imageSrc="/images/heroes/hero-community.jpeg"
+          imageAlt="Vibrant professional community gathering with diverse Malaysian professionals"
         >
           <div className="animate-slide-up">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-text mb-6 leading-tight">

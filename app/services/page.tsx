@@ -111,8 +111,8 @@ export default function ServicesPage() {
         <WarmHero
           className="min-h-[700px] pt-24"
           variant="split"
-          imageSrc="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80"
-          imageAlt="Business strategy consulting session"
+          imageSrc="/images/heroes/hero-services.jpeg"
+          imageAlt="Executive coaching session in elegant Malaysian boardroom"
         >
           <div className="animate-slide-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-sage-100 rounded-full mb-8">

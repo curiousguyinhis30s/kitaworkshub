@@ -60,8 +60,8 @@ export default function CoursesPage() {
         <WarmHero
           className="min-h-[700px] pt-24"
           variant="split"
-          imageSrc="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
-          imageAlt="Professional training and education"
+          imageSrc="/images/heroes/hero-courses.jpeg"
+          imageAlt="Interactive professional workshop classroom"
         >
           <div className="animate-slide-up">
             <h1 className="text-5xl md:text-6xl font-bold font-heading text-text mb-6 leading-tight">
